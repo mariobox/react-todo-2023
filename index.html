@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="auto">
+  <head>
+    <!-- React scripts-->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"
+      crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+      crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="../assets/js/color-modes.js"></script>
+
+    <style>
+      body {
+        background-color: #222;
+        max-width: 900px;
+        margin: 5em auto;
+        color: #999;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+
+      }
+
+      button {
+        display: inline-block;
+        margin-right: 5px
+      }
+      table, td, th {
+                border: 1px solid black;
+            }
+
+            table {
+                border-collapse: collapse;
+                margin: 0 auto;
+            }
+
+            td, th {
+                padding: 10px;
+            }
+      .card {
+        background-color: #FFF;
+        text-align: center;
+        padding: 100px;
+      }
+    </style>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+
+    <!-- Begin JSX part -->
+    <div id="app"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            tasks: ["start adding tasks"],
+            input: ""
+              
+                        };
+        }
+
+        render() {
+          return(
+            <div>
+              <h1>Tasks List</h1>
+              {this.state.tasks.map((task) => <p key={task}><button id={task} onClick={this.handleComplete}>Mark Completed</button>{task}</p>  )}
+              <input onChange={this.handleChange} value={this.state.input} autoFocus /> 
+              <button onClick={this.handleClick} style={{marginLeft: "5px"}}>Add Task</button>
+              <br /><br />
+              <p className="lead">You currently have <strong>{this.state.tasks.length}</strong> pending tasks</p>
+            </div>
+
+          )
+        }
+        handleChange = (event) => {
+          this.setState({
+            input : event.target.value
+          }) 
+        }
+
+        handleClick = () => {
+          this.setState(state => ({
+            tasks : [...state.tasks, state.input],
+            input: ""
+          }))
+        }
+
+        handleComplete = (event) => {
+          let tasks1 = this.state.tasks
+          let i = tasks1.indexOf(event.target.id)
+          tasks1.splice(i, 1)
+          this.setState({
+            tasks: tasks1
+          }
+          )
+        }
+      }
+
+      ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>
